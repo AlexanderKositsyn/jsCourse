@@ -70,7 +70,7 @@ function returnBadArguments(fn, ...args) {
   }
   var arrayOfExceptions = [];
   // вызываем для каждого аргумента функцию
-  args.forEach(function(item) {
+  args.forEach(function (item) {
     try {
       // попробуем вызвать функцию fn с аргументов item
       // и если fn сделает throw error то выполнится catch (thorw new Error всплывет по call stack)
@@ -110,7 +110,7 @@ function calculator(number = 0) {
     },
     div(...args) {
       // проверяем что в переданных аргументах нет нуля
-      args.forEach(function(item) {
+      args.forEach(function (item) {
         if (item === 0) {
           throw new Error("division by 0");
         }
@@ -124,4 +124,9 @@ function calculator(number = 0) {
   };
 }
 
-export { isAllTrue, isSomeTrue, returnBadArguments, calculator };
+export {
+  isAllTrue,
+  isSomeTrue,
+  returnBadArguments,
+  calculator
+};
