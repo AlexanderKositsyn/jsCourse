@@ -8,7 +8,7 @@
  * @param {function} fn - обработчик
  */
 function addListener(eventName, target, fn) {
-    target.addEventListener(eventName, fn);
+  target.addEventListener(eventName, fn);
 }
 
 /**
@@ -19,7 +19,7 @@ function addListener(eventName, target, fn) {
  * @param {function} fn - обработчик
  */
 function removeListener(eventName, target, fn) {
-    target.removeEventListener(eventName, fn);
+  target.removeEventListener(eventName, fn);
 }
 
 /**
@@ -29,9 +29,9 @@ function removeListener(eventName, target, fn) {
  * @param {Element} target - элемент, на который нужно добавить обработчик
  */
 function skipDefault(eventName, target) {
-    target.addEventListener(eventName, e => {
-        e.preventDefault();
-    });
+  target.addEventListener(eventName, e => {
+    e.preventDefault();
+  });
 }
 
 /**
@@ -40,9 +40,9 @@ function skipDefault(eventName, target) {
  * @param {Element} target - элемент, на который нужно добавить обработчик
  */
 function emulateClick(target) {
-    var event = new CustomEvent('click');
+  var event = new CustomEvent("click");
 
-    target.dispatchEvent(event);
+  target.dispatchEvent(event);
 }
 
 /**
@@ -53,11 +53,11 @@ function emulateClick(target) {
  * @param {function} fn - функция, которую нужно вызвать при клике на элемент BUTTON внутри target
  */
 function delegate(target, fn) {
-    target.addEventListener('click', e => {
-        if (e.target.tagName === 'BUTTON') {
-            fn();
-        }
-    });
+  target.addEventListener("click", e => {
+    if (e.target.tagName === "BUTTON") {
+      fn();
+    }
+  });
 }
 
 /**
@@ -70,17 +70,17 @@ function delegate(target, fn) {
  * @param {function} fn - обработчик
  */
 function once(target, fn) {
-    target.addEventListener('click', fn);
-    target.addEventListener('click', () => {
-        target.removeEventListener('click', fn);
-    });
+  target.addEventListener("click", fn);
+  target.addEventListener("click", () => {
+    target.removeEventListener("click", fn);
+  });
 }
 
 export {
-    addListener,
-    removeListener,
-    skipDefault,
-    emulateClick,
-    delegate,
-    once
+  addListener,
+  removeListener,
+  skipDefault,
+  emulateClick,
+  delegate,
+  once
 };
