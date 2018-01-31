@@ -36,14 +36,15 @@ let homeworkContainer = document.querySelector("#homework-container");
  * @return {Promise<Array<{name: string}>>}
  */
 function loadTowns() {
-  return new Promise(function(res, rej) {
+  return new Promise(function (res, rej) {
     // обработчик на load
     function reqListener() {
       if (xhr.status > 400) {
         rej(xhr.responseText);
+        return;
       }
       // тут прхоидт строка
-      var serverResponse = JSON.parse(xhr.responseText).sort(function(a, b) {
+      var serverResponse = JSON.parse(xhr.responseText).sort(function (a, b) {
         var nameA = a.name.toUpperCase(); // ignore upper and lowercase
         var nameB = b.name.toUpperCase(); // ignore upper and lowercase
         if (nameA < nameB) {
@@ -90,17 +91,35 @@ let loadingBlock = homeworkContainer.querySelector("#loading-block");
 let filterBlock = homeworkContainer.querySelector("#filter-block");
 let filterInput = homeworkContainer.querySelector("#filter-input");
 let filterResult = homeworkContainer.querySelector("#filter-result");
+let repeatButton = homeworkContainer.querySelector("#repeat");
 let townsPromise;
 
-loadTowns().then(towns => {
-  // когда придут данные с  сервера, то скрываем Загрузка и показываем инпут
-  loadingBlock.style.display = "none";
-  filterBlock.style.display = "block";
-  townsPromise = towns;
+
+// обработчик на кнопку повторить 
+repeatButton.addEventListener('click', () => {
+  loadTowns()
+    .then(towns => {
+      // когда придут данные с  сервера, то скрываем Загрузка и показываем инпут
+      loadingBlock.style.display = "none";
+      filterBlock.style.display = "block";
+      townsPromise = towns;
+    })
+    // если не пришли данные с сервера
+    .catch((error) => {
+      loadingBlock.textContent = 'Не удалось загрузить города';
+      repeatButton.style.display = 'block';
+    });
 });
 
+// Create the event.
+var event = document.createEvent('Event');
+// Define that the event name is 'build'.
+event.initEvent('click', true, true);
+// target can be any Element or other EventTarget.
+repeatButton.dispatchEvent(event);
+
 // когда ввели что нибудь в input обрабатываем нажатие
-filterInput.addEventListener("keyup", function(e) {
+filterInput.addEventListener("keyup", function (e) {
   // сбрасываем старые значения
   filterResult.innerHTML = "";
   //если поле пустое то не показываем ничего
@@ -118,4 +137,7 @@ filterInput.addEventListener("keyup", function(e) {
   });
 });
 
-export { loadTowns, isMatching };
+export {
+  loadTowns,
+  isMatching
+};
