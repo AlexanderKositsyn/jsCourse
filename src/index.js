@@ -52,16 +52,25 @@ function prepend(what, where) {
  * функция должна вернуть: [div, span]
  * т.к. следующим соседом этих элементов является элемент с тегом P
  */
-function findAllPSiblings(where) {
-  var siblingPArray = [];
-  for (let i = 0; i < where.children.length; ++i) {
-    if (where.children[i + 1]) {
-      where.children[i + 1].tagName === "P"
-        ? siblingPArray.push(where.children[i])
-        : void 0;
-    }
+function findAllPSiblings(where, i = 0, array = []) {
+  // найдем сначала сколько всего элементов и если конец то не зовем еще человека
+  if (i > where.children.length - 2) {
+    return;
   }
-  return siblingPArray;
+  // вызывает следующего человека,а текущий чеовек складывает в общую корзину новое значение, которое вернет ему вызванный
+  findAllPSiblings(where, i + 1, array);
+
+  // если у первого есть элемент соседний P тоже его добавляем в массив
+  if (i === 0) {
+    if (where.children[i + 1].tagName === "P") {
+      array.unshift(where.children[i]);
+    }
+    return array.filter(item => item !== undefined);
+  }
+  // если следующий элемент p то возвращаем текущий, над которым стоит человек
+  if (where.children[i + 1].tagName === "P") {
+    return array.unshift(where.children[i]);
+  }
 }
 
 /**
